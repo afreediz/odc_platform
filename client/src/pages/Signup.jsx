@@ -135,6 +135,9 @@ const Signup = () => {
 
 
                         <Button type="submit">Signup</Button>
+                        
+                        <a href="login" className='md:text-[15px] text-xs text-blue-500'>Login</a>
+
                     </form>
                 </Tabs.Item>
                 <Tabs.Item active title="Hotel" >
@@ -246,6 +249,8 @@ const Signup = () => {
 
 
                         <Button type="submit">Signup</Button>
+                        <a href="login" className='md:text-[15px] text-xs text-blue-500'>Login</a>
+
                     </form>
                 </Tabs.Item>
 
