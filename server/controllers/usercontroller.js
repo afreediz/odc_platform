@@ -7,13 +7,13 @@ const userRegister =async(req,res)=>{
     if(emailExists) return res.josn({response:"emailExists"})
     const hashedPassword = await bcrypt.hash(password, 10)
     await new userModel({
-        name: name,
-        dob: dob,
-        state: state,
-        district: district,
-        address: address,
-        phone: phone,
-        email: email,
+        name,
+        dob,
+        state,
+        district,
+        address,
+        phone,
+        email,
         password: hashedPassword,
     }).save()
     res.status(200).json({message:"successfull"})
@@ -33,9 +33,9 @@ const userLogin=async(req,res)=>{
       user.password
     )
     if (matchPassword) {
-      res.josn({response:"Logined"})
+      res.status(200).josn({response:"Logined"})
     } else {
-      res.josn({response:"incorrectPassword"})
+      res.status(200).json({response:"incorrectPassword"})
     }
 
   } catch (error) {
@@ -44,11 +44,36 @@ const userLogin=async(req,res)=>{
   }
 }
 
-const get_profile = async()=> {}
+const get_profile = async(req,res)=> {
+   try {
+    const profileDetails= await userModel.findOne({_id:req.user.id})
+    res.status(200).json({profileDetails})
+   } catch (error) {
+    console.log(error)
+     res.status(500).json({message:"cannot get the profile"})
+   }
+}
 
-const update_profile = async()=> {}
+const update_profile = async(req,res)=> {
+  try {
+    const updatedInfo=req.body
+    await userModel.findByIdAndUpdate(req.user.id, updatedInfo,{new:true})
+     res.status(200).json({ response:"updated" })
+    
+  } catch (error) {
+       console.log(error)
+       res.status(500).json({ message: "cannot update profile" })
+  }
+}
 
-const delte_profile = async()=> {}
+const delte_profile = async(req,res)=> {
+  try {
+    await findByIdAndDelete(req.user.id)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "cannot delete profile" })
+  }
+}
 
 module.exports={
   userRegister,

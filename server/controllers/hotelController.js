@@ -1,4 +1,5 @@
 const hotelModel= require("../Models/hotelsModel")
+const jobMoel=require("../Models/jobsModel")
 const bcrypt = require("bcrypt")
 
 const hotel_register = async(req,res)=>{
@@ -8,7 +9,7 @@ const hotel_register = async(req,res)=>{
         hotelName:hotelName
       })
       if(alreadyExists) return res.json({response:"exists"})
-      const hashedPassword = await bcrypt.hash(Password, 10)
+      const hashedPassword = await bcrypt.hash(password, 10)
       await new hotelModel({name,email,phone,state,district,address,description,hotelNumber,password:hashedPassword,
       }).save()
       res.status(200).json({message:"successfull"})
@@ -17,11 +18,40 @@ const hotel_register = async(req,res)=>{
     res.status(500).json({message:"cannot logged in"})
    }
 }
-const hotel_login = async()=> {}
+const hotel_login = async(req,res)=> {
+   try {
+       const { email, password } = req.body
+       const hotel = await hotelModel.findOne({ email: email })
+       if (!hotel) return res.status(404).json({ message: "email doesnt exist" })
+       const matchPassword = await bcrypt.compare(password, hotel.password)
+       if (matchPassword)   res.status(200).josn({ response: "Logined" })
+       else  res.status(200).json({ response: "incorrectPassword" })
+       
+   } catch (error) {
+       console.log(error)
+       res.status(500).json({ message: "login failed" })
+   }
+}
 
-const hotel_jobs = async()=> {}
+const hotel_jobs = async(req,res)=> {
+   try {
+      const hotel_job_details= await jobMoel.findOne({hotel:req.hotel.id})
+      res.status(200).json({hotel_job_details})
+   } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: "Cannot get job result" })
+   }
+}
 
-const hotel_profile = ()=> {}
+const hotel_profile = async(req,res)=> {
+    try {
+      const hotel_profile= await hotelModel.findOne({_id:req.hotel.id})
+      res.status(200).json({ hotel_profile })
+   } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: "Cannot get job result" })
+   }
+}
 
 module.exports={
     hotel_register,
