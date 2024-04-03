@@ -11,6 +11,10 @@ const userModel = new Schema({
     state: String,
     district: String,
     address: String,
+    block: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const users = mongoose.model("Users", userModel)

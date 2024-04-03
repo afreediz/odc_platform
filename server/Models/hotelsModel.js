@@ -12,6 +12,10 @@ const hotelModel = new Schema({
     address:String,
     description:String,
     hotelNumber:String,
+    block:{
+        type:Boolean,
+        default:false
+    }
 })
 
 const hotel = mongoose.model("hotel", hotelModel)
