@@ -1,5 +1,5 @@
 const userModel=require("../Models/userModel")
-
+const jobModel=require("../Models/jobsModel")
 const userRegister =async(req,res)=>{
   try {
     const{name,dob,state,district,address,phone,email,password,}=req.body
@@ -75,10 +75,22 @@ const delte_profile = async(req,res)=> {
   }
 }
 
-module.exports={
-  userRegister,
-  userLogin,
-  get_profile,
-  update_profile,
-  delte_profile
+//get all the past job that the user applied
+const job_history=async(req,res)=>{
+    try {
+      await jobModel.find({users:{$elemMatch:{$eq:req.user._id}}})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: "cannot get job" })
+    }
+}
+
+
+module.exports = {
+    userRegister,
+    userLogin,
+    get_profile,
+    update_profile,
+    delte_profile,
+    job_history,
 }
