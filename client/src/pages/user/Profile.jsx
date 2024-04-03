@@ -9,10 +9,15 @@ const Profile = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await axios.get(API_URL + 'user/profile');
-        //setData(res.data.user)
+        const res = await axios.get(API_URL + 'user/profile',{
+          headers:{
+            "Authorization":`Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        console.log(res);
+        setData(res.data.user)
       } catch ({ response }) {
-        //setError(response.data.message)
+        setError(response.data.message)
       }
     }
     loadData()
