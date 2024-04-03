@@ -7,6 +7,23 @@ const Signup = () => {
 
     const [selectedState, setSelectedState] = useState(''); // State to store the selected state
     const [districts, setDistricts] = useState([]); // State to store the districts based on the selected state
+    const [hotelNum, setHotelNum] = useState(0)
+    const onchange = (e)=> {
+        const {name, value} = e.target;
+        return {
+            [name]: value
+        }
+    }
+    const [data, setData] = useState({
+        username:'',
+        email:'',
+        phone:'',
+        password:'',
+        dob:'',
+        state:'',
+        district:'',
+        address:''
+    })
 
 
     const handleStateChange = (e) => {
@@ -31,6 +48,8 @@ const Signup = () => {
 
 
 
+
+
     return (
         <div className='xl:max-w-[40%] md:max-w-[60%] max-w-[90%] md:m-6 md:p-6 m-3 p-3 border-sky-500'>
             <h1 className='md:text-4xl   text-2xl font-semibold md:my-6 my-3'>Signup</h1>
@@ -41,32 +60,32 @@ const Signup = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="username" value="Name" />
                             </div>
-                            <TextInput id="username" type="text" required />
+                            <TextInput id="username" name='username' type="text" onChange={onchange} required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email1" value="Your email" />
                             </div>
-                            <TextInput id="email1" type="email" required />
+                            <TextInput id="email1" name='email' type="email" onChange={onchange} required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="phone" value="Phone" />
                             </div>
-                            <TextInput id="phone" type="number" required />
+                            <TextInput id="phone" name='phone' onChange={onchange} type="number" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" type="password" required />
+                            <TextInput id="password1" name='password' onChange={onchange} type="password" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label value="Date of Birth (Atleast 18 years old)" />
 
                             </div>
-                            {<Datepicker maxDate={new Date(2005, 11, 31)} />}
+                            <Datepicker maxDate={new Date(2005, 11, 31)} onChange={onchange} name="dob" />
                         </div>
                         <div className="max-w-md">
                             <div className="mb-2 block">
@@ -127,13 +146,10 @@ const Signup = () => {
 
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="addresss" value="Address" />
+                                <Label htmlFor="addresss" value="Address" onChange={onchange} />
                             </div>
-                            <TextInput id="address" type="text" required />
+                            <TextInput id="address" name='address' onChange={onchange} type="text" required />
                         </div>
-
-
-
                         <Button type="submit">Signup</Button>
                         
                         <a href="login" className='md:text-[15px] text-xs text-blue-500'>Login</a>
@@ -146,26 +162,26 @@ const Signup = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="hotelname" value="Hotel Name" />
                             </div>
-                            <TextInput id="hotelname" type="text" required />
+                            <TextInput id="hotelname" name='name' onChange={onchange} type="text" required />
                         </div>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email" value="Your email" />
                             </div>
-                            <TextInput id="email" type="email" required />
+                            <TextInput id="email" name='email' onChange={onchange} type="email" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="phone" value="Phone" />
                             </div>
-                            <TextInput id="phone" type="number" required />
+                            <TextInput id="phone" name='phone' onChange={onchange} type="number" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" type="password" required />
+                            <TextInput id="password1" onChange={onchange} name='password' type="password" required />
                         </div>
 
                         <div className="max-w-md">
@@ -229,25 +245,15 @@ const Signup = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="addresss" value="Address" />
                             </div>
-                            <TextInput id="address" type="text" required />
+                            <TextInput id="address" name='address' onChange={onchange} type="text" required />
                         </div>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="hotel_num" value="Hotel number" />
                             </div>
-                            <TextInput id="hotel_num" type="number" required />
+                            <TextInput id="hotel_num" name='hotel_num' type="number" required value={hotelNum} onChange={(e)=>{setHotelNum(e.target.value)}} />
                         </div>
-
-                        <div className="max-w-md">
-                            <div className="mb-2 block">
-                                <Label htmlFor="description" value="Description" />
-                            </div>
-                            <Textarea id="descripiton"  required rows={4} />
-                        </div>
-
-
-
                         <Button type="submit">Signup</Button>
                         <a href="login" className='md:text-[15px] text-xs text-blue-500'>Login</a>
 
