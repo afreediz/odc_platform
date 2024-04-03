@@ -1,14 +1,16 @@
 const userModel=require("../Models/userModel")
+const jobModel=require("../Models/jobsModel")
+const bcrypt = require('bcrypt')
 
 const userRegister =async(req,res)=>{
+  console.log("reached");
   try {
-    const{name,dob,state,district,address,phone,email,password,}=req.body
+    const{name,state,district,address,phone,email,password,}=req.body
     let emailExists=await userModel.findOne({email:email})
     if(emailExists) return res.josn({response:"emailExists"})
     const hashedPassword = await bcrypt.hash(password, 10)
     await new userModel({
         name,
-        dob,
         state,
         district,
         address,
@@ -33,6 +35,7 @@ const userLogin=async(req,res)=>{
       user.password
     )
     if (matchPassword) {
+      token = user.generate_token();
       res.status(200).josn({response:"Logined"})
     } else {
       res.status(200).json({response:"incorrectPassword"})
@@ -75,10 +78,22 @@ const delte_profile = async(req,res)=> {
   }
 }
 
-module.exports={
-  userRegister,
-  userLogin,
-  get_profile,
-  update_profile,
-  delte_profile
+//get all the past job that the user applied
+const job_history=async(req,res)=>{
+    try {
+      await jobModel.find({users:{$elemMatch:{$eq:req.user._id}}})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: "cannot get job" })
+    }
+}
+
+
+module.exports = {
+    userRegister,
+    userLogin,
+    get_profile,
+    update_profile,
+    delte_profile,
+    job_history,
 }

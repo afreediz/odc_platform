@@ -6,7 +6,7 @@ const hotel_register = async(req,res)=>{
    try {
       const {name,email,phone,state,district,address,description,hotelNumber,password,}=req.body
       const alreadyExists=await hotelModel.findOne({
-        hotelName:hotelName
+        name:name
       })
       if(alreadyExists) return res.json({response:"exists"})
       const hashedPassword = await bcrypt.hash(password, 10)
