@@ -1,45 +1,31 @@
 const hotelModel= require("../Models/hotelsModel")
 const bcrypt = require("bcrypt")
 
-const addingHotel=async(req,res)=>{
+const hotel_register = async(req,res)=>{
    try {
-      const {
-          hotelName,
-          userName,
-          Email,
-          phone,
-          state,
-          District,
-          Address,
-          Description,
-          hotelNumber,
-          Password,
-      }=req.body
+      const {name,email,phone,state,district,address,description,hotelNumber,password,}=req.body
       const alreadyExists=await hotelModel.findOne({
         hotelName:hotelName
       })
-      if(alreadyExists){
-         res.json({response:"exists"})
-      }else{
-         const hashedPassword = await bcrypt.hash(Password, 10)
-        await new hotelModel({
-            hotelName: hotelName,
-            userName: userName,
-            Email: Email,
-            phone: phone,
-            state: state,
-            District: District,
-            Address: Address,
-            Description: Description,
-            hotelNumber: hotelNumber,
-            Password: hashedPassword
-        }).save().then(()=>res.json({response:"added"})).catch((err)=>console.log(err))
-      }
-    
+      if(alreadyExists) return res.json({response:"exists"})
+      const hashedPassword = await bcrypt.hash(Password, 10)
+      await new hotelModel({name,email,phone,state,district,address,description,hotelNumber,password,
+      }).save()
+      res.status(200).json({message:"successfull"})
    } catch (error) {
     console.log(error)
+    res.status(500).json({message:"cannot logged in"})
    }
 }
+const hotel_login = async()=> {}
+
+const hotel_jobs = async()=> {}
+
+const hotel_profile = ()=> {}
+
 module.exports={
-    addingHotel,
+    hotel_register,
+    hotel_login,
+    hotel_profile,
+    hotel_jobs
 }
