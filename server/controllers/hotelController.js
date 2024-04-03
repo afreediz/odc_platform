@@ -26,8 +26,7 @@ const hotel_login = async(req,res)=> {
        const matchPassword = await bcrypt.compare(password, hotel.password)
        if (!matchPassword) return res.status(404).json({message:"password not match"})
        const token = hotel.generateToken();
-       res.cookie("token",token,{httpOnly:true})
-       res.status(200).json({message:"login successfull",hotel:hotel})
+       res.status(200).json({message:"login successfull",hotel:hotel, token:token})
    } catch (error) {
        console.log(error)
        res.status(500).json({ message: "login failed" })
