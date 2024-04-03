@@ -1,4 +1,5 @@
 const userModel=require("../Models/userModel")
+const { response } = require("../app")
 const addUser=async(req,res)=>{
   try {
     const{
@@ -27,6 +28,38 @@ const addUser=async(req,res)=>{
            }).save().then(()=>res.josn({response:"added"})).catch((err)=>console.log(err))
      }
   } catch (error) {
+     console.log(error)
+  }
+
+
+}
+
+const userLogin=async(req,res)=>{
+  try {
+    const { email, password } = req.body
+        const user = await userModel.findOne({ email: email })
+        if (user) {
+    
+            const matchPassword = await bcrypt.compare(
+                password,
+                user.password
+            )
+            if (matchPassword) {
+              
+                res.josn({response:"Logined"})
+            } else {
+                res.josn({response:"incorrectPassword"})
+            }
+        } else {
+            res.josn({response:"emailIncorrect"})
+        }
+
+  } catch (error) {
     
   }
+}
+
+module.exports={
+  addUser,
+  userLogin
 }
