@@ -24,9 +24,10 @@ const hotel_login = async(req,res)=> {
        const hotel = await hotelModel.findOne({ email: email })
        if (!hotel) return res.status(404).json({ message: "email doesnt exist" })
        const matchPassword = await bcrypt.compare(password, hotel.password)
-       if (matchPassword)   res.status(200).josn({ response: "Logined" })
-       else  res.status(200).json({ response: "incorrectPassword" })
-       
+       if (!matchPassword) return res.status(404).json({message:"password not match"})
+       const token = hotel.generateToken();
+       res.cookie("token",token,{httpOnly:true})
+       res.status(200).json({message:"login successfull",hotel:hotel})
    } catch (error) {
        console.log(error)
        res.status(500).json({ message: "login failed" })

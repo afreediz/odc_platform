@@ -75,9 +75,9 @@ const deleteSpecificJob = async (req, res) => {
   
 }
 //job history
-
+const bookJob = (req, res)=> {}
 //present and reject(add notification to user)
-
+const unbookJob = (req, res)=> {}
 
 module.exports = {
     postJob,
@@ -85,4 +85,6 @@ module.exports = {
     updateSpecificJob,
     deleteSpecificJob,
     getjob,
+    bookJob,
+    unbookJob
 }
