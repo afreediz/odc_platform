@@ -8,6 +8,7 @@ import Profile from "./pages/user/Profile";
 import UserPrivate from "./context/UserPrivate";
 import HotelPrivate from "./context/HotelPrivate";
 import AdminPrivate from "./context/AdminPrivate";
+import Navbar from "./components/Navbar";
 
 function App() {
   const { user, setUser } = useContext(usercontext)

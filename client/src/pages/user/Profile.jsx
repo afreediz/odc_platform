@@ -60,9 +60,22 @@ const Profile = () => {
           </Table>
         </div>
       </div>
-      <div>
-        <h1 className='md:text-3xl text-xl font-semibold  text-green-400 mb-3 md:w-[60%] sm:w-[80%] w-[90%] mx-auto'>Jobs booked</h1>
-        <div className='flex md:w-[80%] items-center justify-around mx-auto'>
+      <div className='mb-10'>
+        <h1 className='md:text-3xl text-xl font-semibold  text-[#07c611]  mx-auto text-center my-6'>Jobs booked</h1>
+        <div className='flex md:w-[80%] items-center justify-around mx-auto flex-wrap gap-6'>
+          <div className='sm:max-w-[80%] sm:mx-5'>
+            <Card href="#" className="max-w-sm">
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Catering
+              </h5>
+              <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Hotel plaza
+              </h5>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, magnam.
+              </p>
+            </Card>
+          </div>
           <div>
             <Card href="#" className="max-w-sm">
               <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -88,7 +101,8 @@ const Profile = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, magnam.
               </p>
             </Card>
-          </div><div>
+          </div>
+          <div>
             <Card href="#" className="max-w-sm">
               <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Catering
