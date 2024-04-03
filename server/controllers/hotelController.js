@@ -53,13 +53,38 @@ const hotel_profile = async(req,res)=> {
       res.status(500).json({ message: "Cannot get job result" })
    }
 }
-
 //hotel profile updation
-//cancel jobs
+const hotel_profile_update = async(req,res)=> {
+    try {
+      const hotel_id=req.hotel.id
+      const updateInfo=req.body
+      await hotelModel.findByIdAndUpdate(hotel_id,updateInfo)
+      res.status(200).json({response:"updated"})
+   } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: "Cannot update job result" })
+   }
+}
 
-module.exports={
+
+
+//cancel jobs
+const canceljobs = async (req, res) => {
+    try {
+        const job_id=req.params.id  
+        await jobMoel.findByIdAndDelete(job_id)
+        res.status(200).json({ response: "updated" })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Cannot update job result" })
+    }
+}
+
+module.exports = {
     hotel_register,
     hotel_login,
     hotel_profile,
-    hotel_jobs
+    hotel_jobs,
+    hotel_profile_update,
+    canceljobs,
 }

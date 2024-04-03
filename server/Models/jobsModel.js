@@ -10,7 +10,7 @@ const jobModel = new Schema({
     hotel: { type: Schema.Types.ObjectId, ref: "hotel" },
     salary: Number,
     department: String,
-    users: [{ type: Schema.Types.ObjectId, ref: "Users" }],//update present true
+    users: [{employee:{ type: Schema.Types.ObjectId, ref: "Users" },present:Boolean}]
 })
 
 const jobs = mongoose.model("jobs", jobModel)

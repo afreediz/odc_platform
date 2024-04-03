@@ -12,6 +12,10 @@ const hotelModel = new Schema({
     address:String,
     description:String,
     hotelNumber:String,
+    block:{
+        type:Boolean,
+        default:false
+    }
 })
 hotelModel.methods.generate_token = function(){
     const token = jwt.sign({
