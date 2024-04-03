@@ -1,14 +1,16 @@
 const userModel=require("../Models/userModel")
 const jobModel=require("../Models/jobsModel")
+const bcrypt = require('bcrypt')
+
 const userRegister =async(req,res)=>{
+  console.log("reached");
   try {
-    const{name,dob,state,district,address,phone,email,password,}=req.body
+    const{name,state,district,address,phone,email,password,}=req.body
     let emailExists=await userModel.findOne({email:email})
     if(emailExists) return res.josn({response:"emailExists"})
     const hashedPassword = await bcrypt.hash(password, 10)
     await new userModel({
         name,
-        dob,
         state,
         district,
         address,
@@ -33,6 +35,7 @@ const userLogin=async(req,res)=>{
       user.password
     )
     if (matchPassword) {
+      token = user.generate_token();
       res.status(200).josn({response:"Logined"})
     } else {
       res.status(200).json({response:"incorrectPassword"})

@@ -1,3 +1,7 @@
+require('dotenv').config();
+require('./Models/connection');
+
+var cors = require('cors')
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,6 +15,7 @@ var jobRoute=require('./routes/jobRoute')
 
 var app = express();
 
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(bodyParser.json())

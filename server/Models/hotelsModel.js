@@ -13,7 +13,13 @@ const hotelModel = new Schema({
     description:String,
     hotelNumber:String,
 })
-
+hotelModel.methods.generate_token = function(){
+    const token = jwt.sign({
+        _id:this._id,
+        name:this.name,
+    }, process.env.JWT_SECRET, {expiresIn:"1d"})
+    return token
+}
 const hotel = mongoose.model("hotel", hotelModel)
 
 module.exports = hotel
