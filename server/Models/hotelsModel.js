@@ -3,16 +3,15 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const hotelModel = new Schema({
-    hotelName:String,
-    userName:String,
-    Email:String,
+    name:String,
+    email:String,
     phone:String,
+    password:String,
     state:String,
-    District:String,
-    Address:String,
-    Description:String,
+    district:String,
+    address:String,
+    description:String,
     hotelNumber:String,
-    Password:String
 })
 
 const hotel = mongoose.model("hotel", hotelModel)

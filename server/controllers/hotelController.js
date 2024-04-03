@@ -4,16 +4,15 @@ const bcrypt = require("bcrypt")
 const addingHotel=async(req,res)=>{
    try {
       const {
-          hotelName,
-          userName,
-          Email,
+          name,
+          email,
           phone,
           state,
-          District,
-          Address,
-          Description,
+          district,
+          address,
+          description,
           hotelNumber,
-          Password,
+          password,
       }=req.body
       const alreadyExists=await hotelModel.findOne({
         hotelName:hotelName
@@ -23,16 +22,15 @@ const addingHotel=async(req,res)=>{
       }else{
          const hashedPassword = await bcrypt.hash(Password, 10)
         await new hotelModel({
-            hotelName: hotelName,
-            userName: userName,
-            Email: Email,
-            phone: phone,
-            state: state,
-            District: District,
-            Address: Address,
-            Description: Description,
-            hotelNumber: hotelNumber,
-            Password: hashedPassword
+         name,
+         email,
+         phone,
+         state,
+         district,
+         address,
+         description,
+         hotelNumber,
+         password,
         }).save().then(()=>res.json({response:"added"})).catch((err)=>console.log(err))
       }
     
