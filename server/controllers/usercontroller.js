@@ -44,6 +44,7 @@ const userLogin=async(req,res)=>{
   }
 }
 
+//get specific job
 const get_profile = async(req,res)=> {
    try {
     const profileDetails= await userModel.findOne({_id:req.user.id})
@@ -85,6 +86,47 @@ const job_history=async(req,res)=>{
     }
 }
 
+const bookJob = async (req, res) => {
+    try {
+        const job_id = req.params.id
+        const user_id = req.user.id
+        const job = await jobModel.findById(job_id)
+        if (job && job.users && job.users.length <= job.noOfApplicants) {
+            // Update the document and get the updated document
+            await jobModel.findByIdAndUpdate(
+                job_id,
+                { $push: { users: user_id } },
+                { new: true }
+            )
+            res.status(200).json({ response: "successful" })
+        } else
+            res.status(400).json({
+                message:
+                    "Cannot book the job. Maximum users reached or job not found.",
+            })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+
+const unbookJob = async (req, res) => {
+    try {
+        const job_id = req.params.id
+        const user_id = req.user.id
+        await jobModel.findByIdAndUpdate(
+            job_id,
+            { $pull: { users: user_id } },
+            { new: true }
+        )
+        res.status(200).json({ message: "job_booked" })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "cannot book" })
+    }
+}
+
+
 
 module.exports = {
     userRegister,
@@ -93,4 +135,6 @@ module.exports = {
     update_profile,
     delte_profile,
     job_history,
+    bookJob,
+    unbookJob,
 }
