@@ -35,9 +35,7 @@ const getSpecificJob = async (req, res) => {
         res.status(500).json({ error: error.message })
     }
 }
-
 //update specificjob
-
 const updateSpecificJob = async (req, res) => {
     try {
          const job_id = req.params.id
@@ -75,7 +73,6 @@ const bookJob=async(req,res)=>{
         res.status(500).json({ message: "cannot book" })
     }
 }
-
 //unbook a job
 const unbookJob = async (req, res) => {
     try {
