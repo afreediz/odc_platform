@@ -1,4 +1,5 @@
 const userModel=require("../Models/userModel")
+const bcrypt = require("bcrypt")
 const { response } = require("../app")
 const addUser=async(req,res)=>{
   try {
