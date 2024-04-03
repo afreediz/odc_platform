@@ -42,6 +42,7 @@ const hotel_jobs = async(req,res)=> {
       res.status(500).json({ message: "Cannot get job result" })
    }
 }
+//show details user present and job desc while clicking 
 
 const hotel_profile = async(req,res)=> {
     try {
@@ -52,6 +53,9 @@ const hotel_profile = async(req,res)=> {
       res.status(500).json({ message: "Cannot get job result" })
    }
 }
+
+//hotel profile updation
+//cancel jobs
 
 module.exports={
     hotel_register,

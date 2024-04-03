@@ -24,6 +24,19 @@ const postJob = async (req, res) => {
         res.status(500).json({message:"cannot added job"})
     }
 }
+//get all job
+const getjob=async()=>{
+    try {
+        const jobs= await jobModel.find()
+        res.status(200).json({jobs})
+    } catch (error) {
+          console.log(error)
+          res.status(500).json({ message: "cannot find jobs" })
+    }
+}
+
+
+
 //get specific job
 const getSpecificJob = async (req, res) => {
     try {
@@ -61,40 +74,15 @@ const deleteSpecificJob = async (req, res) => {
     }
   
 }
-//book a job
-const bookJob=async(req,res)=>{
-    try {
-      const job_id=req.params.id
-      const user_id=  req.user.id
-      await jobModel.findByIdAndUpdate(job_id, { $push: { users: user_id } },{new:true})
-      res.status(200).json({ message: "job_booked" })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "cannot book" })
-    }
-}
-//unbook a job
-const unbookJob = async (req, res) => {
-    try {
-        const job_id = req.params.id
-        const user_id = req.user.id
-        await jobModel.findByIdAndUpdate(
-            job_id,
-            { $pull: { users: user_id } },
-            { new: true }
-        )
-        res.status(200).json({ message: "job_booked" })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "cannot book" })
-    }
-}
+//job history
+
+//present and reject(add notification to user)
+
 
 module.exports = {
     postJob,
     getSpecificJob,
     updateSpecificJob,
     deleteSpecificJob,
-    bookJob,
-    unbookJob,
+    getjob,
 }
