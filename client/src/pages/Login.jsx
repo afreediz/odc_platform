@@ -3,8 +3,10 @@ import { useContext } from 'react'
 import { usercontext } from '../context/userContext'
 import { API_URL } from '../constants';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
+    const navigate = useNavigate();
   const {setUser} = useContext(usercontext);
   const [data, setData] = useState({
     email:"",
@@ -26,7 +28,7 @@ const Login = () => {
         ...data
       })
       setUser(response.data.user)
-      useNavigate('/')
+      navigate('/')
     }catch({response}){
       setError(response.data.message)
     }
