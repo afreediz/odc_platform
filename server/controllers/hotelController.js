@@ -9,7 +9,7 @@ const hotel_register = async(req,res)=>{
       })
       if(alreadyExists) return res.json({response:"exists"})
       const hashedPassword = await bcrypt.hash(Password, 10)
-      await new hotelModel({name,email,phone,state,district,address,description,hotelNumber,password,
+      await new hotelModel({name,email,phone,state,district,address,description,hotelNumber,password:hashedPassword,
       }).save()
       res.status(200).json({message:"successfull"})
    } catch (error) {
