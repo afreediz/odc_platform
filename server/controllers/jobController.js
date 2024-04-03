@@ -157,4 +157,5 @@ module.exports = {
     job_history,
     userPresent,
     userAbsent,
+
 }
