@@ -7,10 +7,10 @@ const jobModel = new Schema({
     Description: String,
     noOfApplicants: Number,
     jobCreatedDate: Date,
-    hotel:{ type:Schema.types.ObjectId,ref:"hotel" },
+    hotel: { type: Schema.Types.ObjectId, ref: "hotel" },
     salary: Number,
     department: String,
-    users: [{ type: Schema.types.ObjectId, ref: "Users" }],
+    users: [{ type: Schema.Types.ObjectId, ref: "Users" }],
 })
 
 const jobs = mongoose.model("jobs", jobModel)
