@@ -1,31 +1,32 @@
 import React, { useState } from 'react'
 import { Button, Label, TextInput, Datepicker, Select, Tabs, Textarea } from "flowbite-react";
-
+import axios from 'axios'
+import { API_URL } from '../constants';
 
 
 const Signup = () => {
-
+    const [error, setError] = useState("")
     const [selectedState, setSelectedState] = useState(''); // State to store the selected state
     const [districts, setDistricts] = useState([]); // State to store the districts based on the selected state
     const [hotelNum, setHotelNum] = useState(0)
     const onchange = (e)=> {
         const {name, value} = e.target;
-        return {
+        setData((old_data)=>{return {
+            ...old_data,
             [name]: value
-        }
+        }})
     }
     const [data, setData] = useState({
-        username:'',
+        name:'',
         email:'',
         phone:'',
         password:'',
-        dob:'',
-        state:'',
-        district:'',
-        address:''
+        address:'',
+        district:''
     })
 
 
+    console.log(data);
     const handleStateChange = (e) => {
         const selectedState = e.target.value;
         setSelectedState(selectedState);
@@ -46,46 +47,70 @@ const Signup = () => {
         }
     };
 
-
-
-
+    const on_user_submit = async()=> {
+        try{
+            console.log('at', data);
+            const res = await axios.post(API_URL+'user/register',{
+                ...data,
+                state:selectedState,
+            })
+        }catch({response}){
+            console.log(response);
+            // setError(response..message)
+        }
+    }
+    const on_hotel_submit = async()=> {
+        try{
+            const res = await axios.post(API_URL+'hotel/register',{
+                ...data,
+                state:selectedState,
+                hotelNum
+            })
+        }catch({response}){
+            console.log(response);
+        }
+    }
 
     return (
         <div className='xl:max-w-[40%] md:max-w-[60%] max-w-[90%] md:m-6 md:p-6 m-3 p-3 border-sky-500'>
+            <div className="">{error}</div>
             <h1 className='md:text-4xl   text-2xl font-semibold md:my-6 my-3'>Signup</h1>
             <Tabs aria-label="Default tabs" style="default" className=''>
                 <Tabs.Item active title="User" >
-                    <form className="flex max-w-md flex-col gap-4">
+                    <form className="flex max-w-md flex-col gap-4" onSubmit={(e)=>{
+                        e.preventDefault()
+                        on_user_submit()
+                    }}>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="username" value="Name" />
                             </div>
-                            <TextInput id="username" name='username' type="text" onChange={onchange} required />
+                            <TextInput id="username" value={data.name} name='name' type="text" onChange={onchange} />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email1" value="Your email" />
                             </div>
-                            <TextInput id="email1" name='email' type="email" onChange={onchange} required />
+                            <TextInput id="email1" value={data.email} name='email' type="email" onChange={onchange} required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="phone" value="Phone" />
                             </div>
-                            <TextInput id="phone" name='phone' onChange={onchange} type="number" required />
+                            <TextInput id="phone" name='phone' value={data.phone} onChange={onchange} type="number" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" name='password' onChange={onchange} type="password" required />
+                            <TextInput id="password1" name='password' value={data.password} onChange={onchange} type="password" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label value="Date of Birth (Atleast 18 years old)" />
 
                             </div>
-                            <Datepicker maxDate={new Date(2005, 11, 31)} onChange={onchange} name="dob" />
+                            {/* <Datepicker maxDate={new Date(2005, 11, 31)} value={data.dob} onChange={onchange} name="dob" /> */}
                         </div>
                         <div className="max-w-md">
                             <div className="mb-2 block">
@@ -136,7 +161,7 @@ const Signup = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="countries" value="Select your district" />
                             </div>
-                            <Select id="districts">
+                            <Select id="districts" onChange={onchange} name='district' value={data.district}>
                                 <option value="">Select District</option>
                                 {districts.map((district, index) => (
                                     <option key={index} value={district}>{district}</option>
@@ -148,7 +173,7 @@ const Signup = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="addresss" value="Address" onChange={onchange} />
                             </div>
-                            <TextInput id="address" name='address' onChange={onchange} type="text" required />
+                            <TextInput id="address" value={data.address} name='address' onChange={onchange} type="text" required />
                         </div>
                         <Button type="submit">Signup</Button>
                         
@@ -157,31 +182,34 @@ const Signup = () => {
                     </form>
                 </Tabs.Item>
                 <Tabs.Item active title="Hotel" >
-                    <form className="flex max-w-md flex-col gap-4">
+                    <form className="flex max-w-md flex-col gap-4" onSubmit={(e)=>{
+                        e.preventDefault()
+                        on_hotel_submit()
+                    }}>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="hotelname" value="Hotel Name" />
                             </div>
-                            <TextInput id="hotelname" name='name' onChange={onchange} type="text" required />
+                            <TextInput id="hotelname" value={data.name} name='name' onChange={onchange} type="text" required />
                         </div>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email" value="Your email" />
                             </div>
-                            <TextInput id="email" name='email' onChange={onchange} type="email" required />
+                            <TextInput id="email" value={data.email} name='email' onChange={onchange} type="email" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="phone" value="Phone" />
                             </div>
-                            <TextInput id="phone" name='phone' onChange={onchange} type="number" required />
+                            <TextInput id="phone" value={data.phone} name='phone' onChange={onchange} type="number" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" onChange={onchange} name='password' type="password" required />
+                            <TextInput id="password1" value={data.password} onChange={onchange} name='password' type="password" required />
                         </div>
 
                         <div className="max-w-md">
@@ -245,7 +273,7 @@ const Signup = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="addresss" value="Address" />
                             </div>
-                            <TextInput id="address" name='address' onChange={onchange} type="text" required />
+                            <TextInput id="address" value={data.address} name='address' onChange={onchange} type="text" required />
                         </div>
 
                         <div>

@@ -1,14 +1,20 @@
 const userModel=require("../Models/userModel")
 const jobModel=require("../Models/jobsModel")
+const bcrypt = require('bcrypt')
+
+const userPrivate = (req, res) => {
+  res.status(200).json({message:"success",user:req.user})
+}
+
 const userRegister =async(req,res)=>{
+  console.log("reached");
   try {
-    const{name,dob,state,district,address,phone,email,password,}=req.body
+    const{name,state,district,address,phone,email,password,}=req.body
     let emailExists=await userModel.findOne({email:email})
     if(emailExists) return res.josn({response:"emailExists"})
     const hashedPassword = await bcrypt.hash(password, 10)
     await new userModel({
         name,
-        dob,
         state,
         district,
         address,
@@ -28,16 +34,15 @@ const userLogin=async(req,res)=>{
     const { email, password } = req.body
     const user = await userModel.findOne({ email: email })
     if(!user) return res.status(404).json({message:"email doesnt exist"})
+    console.log('reaching');
     const matchPassword = await bcrypt.compare(
       password,
       user.password
     )
-    if (matchPassword) {
-      res.status(200).josn({response:"Logined"})
-    } else {
-      res.status(200).json({response:"incorrectPassword"})
-    }
-
+    console.log(matchPassword);
+    if(!matchPassword) return res.status(404).json({message:"incorred password"})
+    token = user.generate_token()
+    res.status(200).json({message:"success",user:user,token:token})
   } catch (error) {
     console.log(error.message);
     res.status(500).json({message:"login failed"})
@@ -48,7 +53,7 @@ const userLogin=async(req,res)=>{
 const get_profile = async(req,res)=> {
    try {
     const profileDetails= await userModel.findOne({_id:req.user.id})
-    res.status(200).json({profileDetails})
+    res.status(200).json({...profileDetails})
    } catch (error) {
     console.log(error)
      res.status(500).json({message:"cannot get the profile"})
@@ -129,6 +134,7 @@ const unbookJob = async (req, res) => {
 
 
 module.exports = {
+  userPrivate,
     userRegister,
     userLogin,
     get_profile,

@@ -1,3 +1,7 @@
+require('dotenv').config();
+require('./Models/connection');
+
+var cors = require('cors')
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,11 +15,15 @@ var jobRoute=require('./routes/jobRoute')
 
 var app = express();
 
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true
+}))
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/user',userRouter );

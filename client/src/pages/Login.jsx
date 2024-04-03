@@ -10,6 +10,7 @@ import { Button, Label, TextInput, Tabs } from "flowbite-react";
 const Login = () => {
     const navigate = useNavigate();
     const { setUser } = useContext(usercontext);
+    const [hotelNum, setHotelNum] = useState(0);
     const [data, setData] = useState({
         email: "",
         password: ""
@@ -20,17 +21,33 @@ const Login = () => {
         const { name, value } = e.target;
         setData((old_data) => {
             return {
+                ...old_data,
                 [name]: value
             }
         })
     }
-    const on_submit = async () => {
+    const on_user_submit = async () => {
+        console.log(data);
         try {
-            const response = await axios.post(API_URL + 'auth/login?type=user', {
+            const response = await axios.post(API_URL + 'user/login', {
                 ...data
             })
+            localStorage.setItem("token",response.data.token)
             setUser(response.data.user)
-            navigate('/')
+            navigate('/user')
+        } catch ({ response }) {
+            // setError(response.data.message)
+        }
+    }
+    const on_hotel_submit = async () => {
+        try {
+            const response = await axios.post(API_URL + 'hotel/login', {
+                ...data,
+                hotelNum
+            })
+            localStorage.setItem("token",data.token)
+            setUser(response.data.hotel)
+            navigate('/hotel')
         } catch ({ response }) {
             setError(response.data.message)
         }
@@ -43,21 +60,21 @@ const Login = () => {
                 <Tabs.Item active title="User" >
                     <form className="flex max-w-md flex-col gap-4" onSubmit={(e)=>{
                         e.preventDefault()
-                        on_submit()
+                        on_user_submit()
                     }}>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email1" value="Your email" />
                             </div>
-                            <TextInput id="email1" type="email" required name='email'/>
+                            <TextInput id="email1" type="email" onChange={onchange} required value={data.email} name='email'/>
                         </div>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" type="password" required name='password' />
+                            <TextInput id="password1" type="password" onChange={onchange} required value={data.password} name='password' />
                         </div>
 
 
@@ -71,21 +88,21 @@ const Login = () => {
                 <Tabs.Item active title="Hotels" >
                     <form className="flex max-w-md flex-col gap-4" onSubmit={(e)=>{
                         e.preventDefault()
-                        on_submit()
+                        on_hotel_submit()
                     }}>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email1" value="Your email" />
                             </div>
-                            <TextInput id="email1" type="email" required name='email' />
+                            <TextInput id="email1" type="email" onChange={onchange} required name='email' />
                         </div>
 
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="hotel_num" value="Hotel number" />
                             </div>
-                            <TextInput id="hotel_num" type="number" required name='hotel_num' />
+                            <TextInput id="hotel_num" type="number" value={hotelNum} onchange={(e)=>{setHotelNum(e.target.value)}} required name='hotel_num' />
                         </div>
 
 
@@ -93,7 +110,7 @@ const Login = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" type="password" required  name='passowrd'/>
+                            <TextInput id="password1" type="password" onChange={onchange} required  name='passowrd'/>
                         </div>
 
                         <Button type="submit" className='bg-blue-600 text-white rounded-md mt-5 w-[200px] mx-auto'>Login</Button>
