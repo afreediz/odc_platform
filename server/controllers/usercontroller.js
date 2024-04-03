@@ -34,13 +34,11 @@ const userLogin=async(req,res)=>{
       password,
       user.password
     )
-    if (matchPassword) {
-      token = user.generate_token();
-      res.status(200).josn({response:"Logined"})
-    } else {
-      res.status(200).json({response:"incorrectPassword"})
-    }
-
+    console.log(matchPassword);
+    if(!matchPassword) return res.status(404).json({message:"incorred password"})
+    token = user.generate_token()
+    res.cookie("token",token,{httpOnly:true, expiresIn:"1d"})
+    res.status(200).json({message:"success",user:user})
   } catch (error) {
     console.log(error.message);
     res.status(500).json({message:"login failed"})

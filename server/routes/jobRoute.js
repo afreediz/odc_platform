@@ -1,13 +1,8 @@
-const express= require('express')
-const router= express.Router()
-const { postJob,
-    getSpecificJob,
-    updateSpecificJob,
-    deleteSpecificJob,
-    bookJob,
-    unbookJob,}=require("../controllers/jobController")
+const express = require('express')
+const router = express.Router()
+const { postJob,getSpecificJob,updateSpecificJob,deleteSpecificJob,bookJob,unbookJob, getjob}=require("../controllers/jobController")
 // get all jobs
-router.get('/',)
+router.get('/',getjob)
 // create job
 router.post("/", postJob)
 // get specific
