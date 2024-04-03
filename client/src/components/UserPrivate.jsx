@@ -4,6 +4,8 @@ import { usercontext } from '../context/userContext'
 import axios from 'axios';
 import { API_URL } from '../constants';
 
+
+
 const UserPrivate = () => {
     const bool = localStorage.getItem('token') ? true : false;
     const [auth, setAuth] = useState(bool);
