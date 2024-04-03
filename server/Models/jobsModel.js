@@ -8,7 +8,10 @@ const jobModel = new Schema({
     noOfApplicants: Number,
     jobCreatedDate: Date,
     salary: Number,
-    department:String 
+    department:String,
+    employees:{
+        
+    }
    
 })
 
