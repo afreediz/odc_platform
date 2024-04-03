@@ -64,8 +64,33 @@ const deleteSpecificJob = async (req, res) => {
   
 }
 //book a job
-const bookJob=async()=>{
-    
+const bookJob=async(req,res)=>{
+    try {
+      const job_id=req.params.id
+      const user_id=  req.user.id
+      await jobModel.findByIdAndUpdate(job_id, { $push: { users: user_id } },{new:true})
+      res.status(200).json({ message: "job_booked" })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "cannot book" })
+    }
+}
+
+//unbook a job
+const unbookJob = async (req, res) => {
+    try {
+        const job_id = req.params.id
+        const user_id = req.user.id
+        await jobModel.findByIdAndUpdate(
+            job_id,
+            { $pull: { users: user_id } },
+            { new: true }
+        )
+        res.status(200).json({ message: "job_booked" })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "cannot book" })
+    }
 }
 
 module.exports = {
@@ -73,4 +98,6 @@ module.exports = {
     getSpecificJob,
     updateSpecificJob,
     deleteSpecificJob,
+    bookJob,
+    unbookJob,
 }
