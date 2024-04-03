@@ -5,9 +5,9 @@ import Signup from "./pages/Signup";
 import Home from "./pages/user/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/user/Profile";
-import UserPrivate from "./context/UserPrivate";
-import HotelPrivate from "./context/HotelPrivate";
-import AdminPrivate from "./context/AdminPrivate";
+import UserPrivate from "./components/UserPrivate";
+import HotelPrivate from "./components/HotelPrivate";
+import AdminPrivate from "./components/AdminPrivate";
 
 function App() {
   const { user, setUser } = useContext(usercontext)
