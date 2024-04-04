@@ -26,9 +26,9 @@ const JobsDescription = () => {
     },[])
     const bookJob = async()=> {
         try{
-            await axios.post(API_URL+'/job/book/'+id,{
+            await axios.post(API_URL+'jobs/book/'+id,{},{
                 headers:{
-              "Authorization":`Bearer ${localStorage.getItem('token')}`
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
                 }
             });
         }catch(error){

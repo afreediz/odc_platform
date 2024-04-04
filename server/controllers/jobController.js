@@ -140,10 +140,12 @@ const userAbsent = async (req, res) => {
 }
 
 const bookJob = async (req, res) => {
+    console.log("reach");
     try {
-        const job_id = req.params.id
-        const user_id = req.user.id
-        const job = await jobModel.findById(job_id)
+        const {id} = req.params.id
+        const user_id = req.user._id
+        const job = await jobModel.findById(id)
+        console.log("job ",id,job);
         if (job && job.users && job.users.length <= job.noOfApplicants) {
             // Update the document and get the updated document
             await jobModel.findByIdAndUpdate(
