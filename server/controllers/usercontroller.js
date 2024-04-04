@@ -130,11 +130,18 @@ const unbookJob = async (req, res) => {
         res.status(500).json({ message: "cannot book" })
     }
 }
+const search =async(req,res)=>{
+  
+    const name=req.params.search
+    const searchTerm = new RegExp(name, 'i'); // Case-insensitive search
+    const foundJOb = await jobModel.findOne({ name: searchTerm });
+    res.json({foundJOb})
+}
 
 
 
 module.exports = {
-  userPrivate,
+    userPrivate,
     userRegister,
     userLogin,
     get_profile,
@@ -143,4 +150,5 @@ module.exports = {
     job_history,
     bookJob,
     unbookJob,
+    search,
 }
