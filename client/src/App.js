@@ -12,6 +12,10 @@ import HotelProfile from "./pages/hotel/HotelProfile";
 import CreateJobs from "./pages/hotel/CreateJobs";
 import HotelPrivate from './components/HotelPrivate'
 import HotelHome from "./pages/hotel/HotelHome";
+import Dashboard from "./pages/admin/Dashboard";
+import JobsDescription from "./pages/user/JobsDescription";
+import JobDescHotelSide from "./pages/hotel/JobDescHotelSide";
+
 
 function App() {
   return (
@@ -24,6 +28,7 @@ function App() {
             <Route path="/hotel" element={<HotelHome/>} />
             <Route path="/hotel/profile" element={<HotelProfile/>} />
             <Route path="/hotel/createjob" element={<CreateJobs/>}/>
+            <Route path="/hotel/jobdesc" element={<JobsDescription/>}/>
           </Route>
           <Route path="/user" element={<UserPrivate />}>
             <Route path="/user" element={<Home/>} />
