@@ -16,7 +16,7 @@ router.get("/", getjob)
 // create job
 router.post("/", postJob)
 // get specific
-router.get("/:id" ,getSpecificJob)
+router.get("/:id", authenticateUser ,getSpecificJob)
 // upate specific job
 router.put("/:id", updateSpecificJob),
     // delete specific job

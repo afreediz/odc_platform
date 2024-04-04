@@ -39,8 +39,9 @@ const getjob = async (req, res) => {
 const getSpecificJob = async (req, res) => {
     try {
         const job_id = req.params.id
-        const jobDetails = await jobModel.find({ _id: job_id })
-        res.status(200).json({ jobDetails }) // Sending job details as JSON response to front end
+        console.log(job_id);
+        const jobDetails = await jobModel.findOne({ _id: job_id })
+        res.status(200).json(jobDetails) // Sending job details as JSON response to front end
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: error.message })

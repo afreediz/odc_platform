@@ -28,12 +28,13 @@ function App() {
             <Route path="/hotel" element={<HotelHome/>} />
             <Route path="/hotel/profile" element={<HotelProfile/>} />
             <Route path="/hotel/createjob" element={<CreateJobs/>}/>
-            <Route path="/hotel/jobdesc" element={<JobsDescription/>}/>
+            <Route path="/hotel/job/:id" element={<JobsDescription/>}/>
           </Route>
           <Route path="/user" element={<UserPrivate />}>
             <Route path="/user" element={<Home/>} />
             <Route path="/user/profile" element={<Profile/>} />
             <Route path="/user/listjobs" element={<Listjobs/>}/>
+            <Route path="/user/job/:id" element={<JobsDescription />} />
           </Route>
         </Routes>
       </BrowserRouter>
