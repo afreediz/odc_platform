@@ -39,8 +39,9 @@ const hotel_login = async(req,res)=> {
 
 const hotel_jobs = async(req,res)=> {
    try {
-      const hotel_job_details= await Job.findOne({hotel:req.hotel.id})
-      res.status(200).json({hotel_job_details})
+      console.log(req.hotel);
+      const hotel_job_details= await Job.find({hotel:req.hotel._id})
+      res.status(200).json(hotel_job_details)
    } catch (error) {
       console.log(error)
       res.status(500).json({ message: "Cannot get job result" })
@@ -103,6 +104,18 @@ const create_job = async(req, res) => {
       res.status(500).json({message:"failed, internal error"})
    }
 }
+const hotel_job = async(req, res)=>{
+   try {
+      console.log('hotel job');
+      const job_id = req.params.id
+      console.log(job_id);
+      const jobDetails = await Job.findOne({ _id: job_id })
+      res.status(200).json(jobDetails) // Sending job details as JSON response to front end
+   } catch (error) {
+   console.log(error)
+   res.status(500).json({ error: error.message })
+   }
+}
 
 module.exports = {
     hotel_register,
@@ -112,5 +125,6 @@ module.exports = {
     hotel_profile_update,
     canceljobs,
     hotelPrivate,
-    create_job
+    create_job,
+    hotel_job
 }

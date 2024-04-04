@@ -9,6 +9,7 @@ const navigation = [
 //   { name: 'Jobs', href: '/hotel/jobs', current: false },
   { name: 'Create', href: '/hotel/createjob', current: false },
   { name: 'Profile', href: '/hotel/profile', current: false },
+  { name: 'My Jobs', href: '/hotel/jobs', current: false },
 ]
 
 function classNames(...classes) {
