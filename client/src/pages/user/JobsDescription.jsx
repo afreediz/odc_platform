@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { API_URL } from '../../constants';
 import axios from 'axios'
+import { Button } from 'flowbite-react';
 const JobsDescription = () => {
     const {id} = useParams();
     console.log(id);
@@ -23,6 +24,17 @@ const JobsDescription = () => {
         }
         geteData()
     },[])
+    const bookJob = async()=> {
+        try{
+            await axios.post(API_URL+'/job/book/'+id,{
+                headers:{
+              "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
+            });
+        }catch(error){
+            console.log(error);
+        }
+    }
     console.log(data);
     return (
         <div className="bg-gray-100 min-h-screen p-8">
@@ -63,6 +75,7 @@ const JobsDescription = () => {
                                 <span className="ml-2 text-gray-500">(Present)</span>
                             </div>
                             {/* Additional users can be displayed here */}
+                            <Button onClick={bookJob} >book</Button>
                         </div>
                     </div>
                 </div>

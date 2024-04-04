@@ -3,6 +3,7 @@ import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { usercontext } from '../context/userContext'
 import axios from 'axios';
 import { API_URL } from '../constants';
+import Navbar from './Hotelnavbar';
 
 const HotelPrivate = () => {
     const bool = localStorage.getItem('token') ? true : false;
@@ -29,7 +30,7 @@ const HotelPrivate = () => {
         }
         getUser();
     }, [bool, navigate])
-  return (auth?<Outlet />:<Navigate to='/login' />)
+  return (auth?<><Navbar/><Outlet /></>:<Navigate to='/login' />)
 }
 
 export default HotelPrivate

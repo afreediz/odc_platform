@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { usercontext } from "./context/userContext";
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import Signup from "./pages/Signup";
 import Home from "./pages/user/Home";
 import Login from "./pages/Login";
@@ -22,6 +22,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Navigate to='/login' />} />
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/hotel" element={<HotelPrivate />}>
@@ -36,6 +37,7 @@ function App() {
             <Route path="/user/listjobs" element={<Listjobs/>}/>
             <Route path="/user/job/:id" element={<JobsDescription />} />
           </Route>
+          <Route path="*" element="Not found" />
         </Routes>
       </BrowserRouter>
     </div>

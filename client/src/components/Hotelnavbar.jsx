@@ -5,9 +5,10 @@ import { usercontext } from '../context/userContext'
 import { useNavigate } from 'react-router-dom'
 
 const navigation = [
-  { name: 'Home', href: '/user', current: true },
-  { name: 'Profile', href: '/user/profile', current: false },
-  { name: 'Jobs', href: '/user/jobs', current: false },
+  { name: 'Home', href: '/hotel', current: true },
+  { name: 'Jobs', href: '/hotel/jobs', current: false },
+  { name: 'Create', href: '/hotel/createjob', current: false },
+  { name: 'Profile', href: '/hotel/profile', current: false },
 ]
 
 function classNames(...classes) {
