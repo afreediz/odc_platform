@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Label, TextInput, Datepicker, Select, Tabs, Textarea } from "flowbite-react";
 import axios from 'axios'
 import { API_URL } from '../constants';
+import { useNavigate } from 'react-router-dom';
 
 
 const Signup = () => {
@@ -24,8 +25,7 @@ const Signup = () => {
         address:'',
         district:''
     })
-
-
+    const navigate = useNavigate()
     console.log(data);
     const handleStateChange = (e) => {
         const selectedState = e.target.value;
@@ -54,6 +54,8 @@ const Signup = () => {
                 ...data,
                 state:selectedState,
             })
+            navigate('/login')
+
         }catch({response}){
             console.log(response);
             setError(response.data.message)
@@ -66,6 +68,7 @@ const Signup = () => {
                 state:selectedState,
                 hotelNum
             })
+            navigate('/login')
         }catch({response}){
             console.log(response);
             setError(response.data.message)
