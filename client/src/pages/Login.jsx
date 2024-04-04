@@ -36,7 +36,7 @@ const Login = () => {
             setUser(response.data.user)
             navigate('/user')
         } catch ({ response }) {
-            // setError(response.data.message)
+            setError(response.data.message)
         }
     }
     const on_hotel_submit = async () => {
@@ -45,7 +45,7 @@ const Login = () => {
                 ...data,
                 hotelNum
             })
-            localStorage.setItem("token",data.token)
+            localStorage.setItem("token",response.data.token)
             setUser(response.data.hotel)
             navigate('/hotel')
         } catch ({ response }) {
@@ -55,6 +55,7 @@ const Login = () => {
 
     return (
         <div className='xl:max-w-[40%] md:max-w-[60%] max-w-[90%] md:m-6 md:p-6 m-3 p-3 border-sky-500'>
+            <div className=" bg-red-100 text-red-800">{error}</div>
             <h1 className='md:text-4xl   text-2xl font-semibold md:my-6 my-3'>Login</h1>
             <Tabs aria-label="Default tabs" style="default" className=''>
                 <Tabs.Item active title="User" >
@@ -110,7 +111,7 @@ const Login = () => {
                             <div className="mb-2 block">
                                 <Label htmlFor="password1" value="Your password" />
                             </div>
-                            <TextInput id="password1" type="password" onChange={onchange} required  name='passowrd'/>
+                            <TextInput id="password1" type="password" onChange={onchange} required  name='password'/>
                         </div>
 
                         <Button type="submit" className='bg-blue-600 text-white rounded-md mt-5 w-[200px] mx-auto'>Login</Button>

@@ -3,8 +3,7 @@ import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { usercontext } from '../context/userContext'
 import axios from 'axios';
 import { API_URL } from '../constants';
-
-
+import Navbar from './Navbar';
 
 const UserPrivate = () => {
     const bool = localStorage.getItem('token') ? true : false;
@@ -26,12 +25,12 @@ const UserPrivate = () => {
             }catch({response}){
                 setAuth(false)
                 setUser(null)
-                // localStorage.removeItem('token');
+                localStorage.removeItem('token');
             }
         }
         getUser();
     }, [])
-  return (auth?<Outlet />:<Navigate to='/login' />)
+  return (auth?<><Navbar/><Outlet /></>:<Navigate to='/login' />)
 }
 
 export default UserPrivate

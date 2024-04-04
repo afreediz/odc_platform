@@ -56,7 +56,7 @@ const Signup = () => {
             })
         }catch({response}){
             console.log(response);
-            // setError(response..message)
+            setError(response.data.message)
         }
     }
     const on_hotel_submit = async()=> {
@@ -68,12 +68,13 @@ const Signup = () => {
             })
         }catch({response}){
             console.log(response);
+            setError(response.data.message)
         }
     }
 
     return (
         <div className='xl:max-w-[40%] md:max-w-[60%] max-w-[90%] md:m-6 md:p-6 m-3 p-3 border-sky-500'>
-            <div className="">{error}</div>
+            <div className=" bg-red-100 text-red-800">{error}</div>
             <h1 className='md:text-4xl   text-2xl font-semibold md:my-6 my-3'>Signup</h1>
             <Tabs aria-label="Default tabs" style="default" className=''>
                 <Tabs.Item active title="User" >

@@ -2,6 +2,10 @@ const hotelModel= require("../Models/hotelsModel")
 const jobMoel=require("../Models/jobsModel")
 const bcrypt = require("bcrypt")
 
+const hotelPrivate = (req, res)=> {
+   res.status(200).json({message:"success",hotel:req.hotel})
+}
+
 const hotel_register = async(req,res)=>{
    try {
       const {name,email,phone,state,district,address,description,hotelNumber,password,}=req.body
@@ -24,8 +28,9 @@ const hotel_login = async(req,res)=> {
        const hotel = await hotelModel.findOne({ email: email })
        if (!hotel) return res.status(404).json({ message: "email doesnt exist" })
        const matchPassword = await bcrypt.compare(password, hotel.password)
+      console.log(matchPassword, req.body);
        if (!matchPassword) return res.status(404).json({message:"password not match"})
-       const token = hotel.generateToken();
+       const token = hotel.generate_token();
        res.status(200).json({message:"login successfull",hotel:hotel, token:token})
    } catch (error) {
        console.log(error)
@@ -47,7 +52,7 @@ const hotel_jobs = async(req,res)=> {
 const hotel_profile = async(req,res)=> {
     try {
       const hotel_profile= await hotelModel.findOne({_id:req.hotel.id})
-      res.status(200).json({ hotel_profile })
+      res.status(200).json(hotel_profile)
    } catch (error) {
       console.log(error)
       res.status(500).json({ message: "Cannot get job result" })
@@ -87,4 +92,5 @@ module.exports = {
     hotel_jobs,
     hotel_profile_update,
     canceljobs,
+    hotelPrivate
 }

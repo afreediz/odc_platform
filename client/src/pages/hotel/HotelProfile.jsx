@@ -14,9 +14,17 @@ const HotelProfile = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await axios.get(API_URL + 'hotel/profile');
+        const res = await axios.get(API_URL + 'hotel/profile',{
+            headers:{
+              "Authorization":`Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        console.log("data came from serv");
+        console.log(res);
+        setData(res.data)
         //setData(res.data.user)
       } catch ({ response }) {
+        console.log(response.data.message);
         //setError(response.data.message)
       }
     }
@@ -32,31 +40,27 @@ const HotelProfile = () => {
           <div className="px-6 py-4">
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Email:</label>
-              <p className="text-gray-700">hotel@example.com</p>
+              <p className="text-gray-700">{data && data.email}</p>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Phone:</label>
-              <p className="text-gray-700">+1234567890</p>
+              <p className="text-gray-700">+{data && data.phone}</p>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">State:</label>
-              <p className="text-gray-700">State</p>
+              <p className="text-gray-700">{data && data.state}</p>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">District:</label>
-              <p className="text-gray-700">District</p>
+              <p className="text-gray-700">{data && data.district}</p>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Address:</label>
-              <p className="text-gray-700">Address</p>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Description:</label>
-              <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p className="text-gray-700">{data && data.address}</p>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Hotel Number:</label>
-              <p className="text-gray-700">12345</p>
+              <p className="text-gray-700">{data && data.hotelNumber}</p>
             </div>
             <button
               onClick={toggleJobPostings}

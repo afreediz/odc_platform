@@ -53,7 +53,8 @@ const userLogin=async(req,res)=>{
 const get_profile = async(req,res)=> {
    try {
     const profileDetails= await userModel.findOne({_id:req.user.id})
-    res.status(200).json({...profileDetails})
+    console.log(profileDetails);
+    res.status(200).json(profileDetails)
    } catch (error) {
     console.log(error)
      res.status(500).json({message:"cannot get the profile"})
@@ -65,7 +66,6 @@ const update_profile = async(req,res)=> {
     const updatedInfo=req.body
     await userModel.findByIdAndUpdate(req.user.id, updatedInfo,{new:true})
      res.status(200).json({ response:"updated" })
-    
   } catch (error) {
        console.log(error)
        res.status(500).json({ message: "cannot update profile" })
