@@ -9,19 +9,21 @@ const {
     unbookJob,
     getjob,
 } = require("../controllers/jobController")
+const { authenticateUser } = require("../middlewares/authenticateUser")
+
 // get all jobs
 router.get("/", getjob)
 // create job
 router.post("/", postJob)
 // get specific
-router.get("/:id", getSpecificJob)
+router.get("/:id" ,getSpecificJob)
 // upate specific job
 router.put("/:id", updateSpecificJob),
     // delete specific job
-    router.delete("/:id", deleteSpecificJob)
+router.delete("/:id", deleteSpecificJob)
 // // book job
-// router.post('/book/:id',bookJob)
+router.post('/book/:id',authenticateUser,bookJob)
 // // unbook job
-// router.post('/cancelbook/:id',unbookJob)
+router.post('/cancelbook/:id',authenticateUser,unbookJob)
 
 module.exports = router
