@@ -1,5 +1,5 @@
 const hotelModel= require("../Models/hotelsModel")
-const jobMoel=require("../Models/jobsModel")
+const Job=require("../Models/jobsModel")
 const bcrypt = require("bcrypt")
 
 const hotelPrivate = (req, res)=> {
@@ -28,7 +28,6 @@ const hotel_login = async(req,res)=> {
        const hotel = await hotelModel.findOne({ email: email })
        if (!hotel) return res.status(404).json({ message: "email doesnt exist" })
        const matchPassword = await bcrypt.compare(password, hotel.password)
-      console.log(matchPassword, req.body);
        if (!matchPassword) return res.status(404).json({message:"password not match"})
        const token = hotel.generate_token();
        res.status(200).json({message:"login successfull",hotel:hotel, token:token})
@@ -40,7 +39,7 @@ const hotel_login = async(req,res)=> {
 
 const hotel_jobs = async(req,res)=> {
    try {
-      const hotel_job_details= await jobMoel.findOne({hotel:req.hotel.id})
+      const hotel_job_details= await Job.findOne({hotel:req.hotel.id})
       res.status(200).json({hotel_job_details})
    } catch (error) {
       console.log(error)
@@ -77,12 +76,32 @@ const hotel_profile_update = async(req,res)=> {
 const canceljobs = async (req, res) => {
     try {
         const job_id=req.params.id  
-        await jobMoel.findByIdAndDelete(job_id)
+        await Job.findByIdAndDelete(job_id)
         res.status(200).json({ response: "updated" })
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: "Cannot update job result" })
     }
+}
+
+const create_job = async(req, res) => {
+   try{
+      const {title, salary, desc, date, noOfApplicants} = req.body;
+      const job = new Job({
+         title,
+         salary,
+         desc,
+         noOfApplicants,
+         jobCreatedDate:new Date(),
+         jobEndDate:date,
+         hotel:req.hotel._id
+      })
+      await job.save()
+      res.status(200).json({message:"successfull"})
+   }catch(error){
+      console.log(error);
+      res.status(500).json({message:"failed, internal error"})
+   }
 }
 
 module.exports = {
@@ -92,5 +111,6 @@ module.exports = {
     hotel_jobs,
     hotel_profile_update,
     canceljobs,
-    hotelPrivate
+    hotelPrivate,
+    create_job
 }

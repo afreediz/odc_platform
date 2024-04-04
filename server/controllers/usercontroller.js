@@ -7,7 +7,6 @@ const userPrivate = (req, res) => {
 }
 
 const userRegister =async(req,res)=>{
-  console.log("reached");
   try {
     const{name,state,district,address,phone,email,password,}=req.body
     let emailExists=await userModel.findOne({email:email})
@@ -34,17 +33,15 @@ const userLogin=async(req,res)=>{
     const { email, password } = req.body
     const user = await userModel.findOne({ email: email })
     if(!user) return res.status(404).json({message:"email doesnt exist"})
-    console.log('reaching');
     const matchPassword = await bcrypt.compare(
       password,
       user.password
     )
-    console.log(matchPassword);
     if(!matchPassword) return res.status(404).json({message:"incorred password"})
     token = user.generate_token()
     res.status(200).json({message:"success",user:user,token:token})
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     res.status(500).json({message:"login failed"})
   }
 }
